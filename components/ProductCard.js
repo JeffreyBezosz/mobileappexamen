@@ -18,9 +18,13 @@ export default function ProductCard({ product, onPress, onFavorite, isFavorite }
         <PlaceholderImage icon="SHOP" />
       )}
       <View style={styles.content}>
-        <Text style={styles.category}>{product.category}</Text>
+        <View style={styles.metaRow}>
+          <Text style={styles.category}>{product.category}</Text>
+          {product.label ? <Text style={styles.label}>{product.label}</Text> : null}
+        </View>
         <Text style={styles.title}>{product.title}</Text>
         <Text style={styles.description} numberOfLines={2}>{product.description}</Text>
+        {product.rating ? <Text style={styles.rating}>Rating {product.rating}/5</Text> : null}
         <View style={styles.footer}>
           <Text style={styles.price}>{formatPrice(product.price)}</Text>
           <Pressable style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]} onPress={handleFavorite}>
@@ -58,7 +62,23 @@ const styles = StyleSheet.create({
     color: colors.darkGreen,
     fontSize: 12,
     fontWeight: "800",
+  },
+  metaRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 8,
+    justifyContent: "space-between",
     marginBottom: 6,
+  },
+  label: {
+    backgroundColor: colors.green,
+    borderRadius: 999,
+    color: colors.ink,
+    fontSize: 11,
+    fontWeight: "900",
+    overflow: "hidden",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   title: {
     color: colors.ink,
@@ -70,6 +90,12 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontSize: 14,
     lineHeight: 20,
+  },
+  rating: {
+    color: colors.darkGreen,
+    fontSize: 13,
+    fontWeight: "800",
+    marginTop: 8,
   },
   footer: {
     alignItems: "center",

@@ -5,6 +5,8 @@ export const fallbackProducts = [
     description: "Warme hoodie met subtiel BA-logo voor schooldagen en uitstappen.",
     category: "Merchandise",
     price: 35,
+    label: "Populair",
+    rating: 4.8,
     image: null,
   },
   {
@@ -13,6 +15,8 @@ export const fallbackProducts = [
     description: "Stevige sporttas met apart vak voor sportschoenen.",
     category: "Sport",
     price: 22,
+    label: "Nieuw",
+    rating: 4.5,
     image: null,
   },
   {
@@ -21,6 +25,8 @@ export const fallbackProducts = [
     description: "Compacte agenda met schoolkalender, notities en handige planning.",
     category: "Schoolmateriaal",
     price: 8.5,
+    label: "Nieuw",
+    rating: 4.4,
     image: null,
   },
   {
@@ -29,6 +35,8 @@ export const fallbackProducts = [
     description: "Groene pet met witte BA-markering.",
     category: "Merchandise",
     price: 15,
+    label: "Populair",
+    rating: 4.6,
     image: null,
   },
   {

@@ -12,6 +12,7 @@ export default function NewsCard({ article, onPress }) {
         <PlaceholderImage icon="NEWS" small />
       )}
       <Text style={styles.category}>{article.category}</Text>
+      {article.label ? <Text style={styles.label}>{article.label}</Text> : null}
       <Text style={styles.title}>{article.title}</Text>
       <Text style={styles.intro} numberOfLines={3}>{article.intro}</Text>
       {article.campus ? <Text style={styles.campus}>{article.campus}</Text> : null}
@@ -41,6 +42,18 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "800",
     marginTop: 12,
+  },
+  label: {
+    alignSelf: "flex-start",
+    backgroundColor: colors.green,
+    borderRadius: 999,
+    color: colors.ink,
+    fontSize: 11,
+    fontWeight: "900",
+    marginTop: 8,
+    overflow: "hidden",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   title: {
     color: colors.ink,

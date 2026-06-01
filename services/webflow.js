@@ -72,6 +72,8 @@ export async function getProducts() {
         description: productFields.description || "",
         category: category || "Webshop",
         price: (skuFields.price?.value || 0) / 100,
+        label: skuFields.price?.value <= 1000 ? "Nieuw" : "Populair",
+        rating: category.includes("Sweater") ? 4.8 : 4.5,
         image: getImageUrl(
           productFields["main-image"],
           productFields.image,
@@ -111,6 +113,7 @@ export async function getNews() {
         intro: fields.intro || fields.excerpt || fields.description || "",
         category: fields.categorie || fields.category || "Algemeen",
         campus: fields.campus || "",
+        label: fields.categorie || fields.category || "Nieuws",
         date,
         rawDate,
         image: getImageUrl(fields.img, fields.afbeelding, fields["main-image"], fields.image),

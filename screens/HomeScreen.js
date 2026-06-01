@@ -11,7 +11,7 @@ import { colors, spacing } from "../constants/theme";
 import { getCampuses, getNews, getProducts } from "../services/webflow";
 import { filterAndSort, getCategories } from "../utils/filtering";
 
-export default function HomeScreen({ navigation, favorites, cartItems, toggleFavorite }) {
+export default function HomeScreen({ navigation, favorites, cartItems, user, toggleFavorite }) {
   const [products, setProducts] = useState([]);
   const [news, setNews] = useState([]);
   const [campuses, setCampuses] = useState([]);
@@ -61,6 +61,16 @@ export default function HomeScreen({ navigation, favorites, cartItems, toggleFav
           <Text style={styles.cartPillText}>Mandje {cartCount}</Text>
         </Pressable>
       </View>
+      <Pressable style={styles.loginBanner} onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.loginBannerText}>
+          {user ? `Welkom, ${user.name}` : "Login met dummy account"}
+        </Text>
+      </Pressable>
+      <View style={styles.statusBar}>
+        <Text style={styles.statusText}>{products.length} producten</Text>
+        <Text style={styles.statusText}>{news.length} nieuwsitems</Text>
+        <Text style={styles.statusText}>{campuses.length} campussen</Text>
+      </View>
 
       <View style={styles.hero}>
         <Text style={styles.heroTitle}>Ontdek jouw toekomst</Text>
@@ -84,6 +94,9 @@ export default function HomeScreen({ navigation, favorites, cartItems, toggleFav
           </Pressable>
           <Pressable style={styles.quickButton} onPress={() => navigation.navigate("Favorites")}>
             <Text style={styles.quickButtonText}>Favorieten</Text>
+          </Pressable>
+          <Pressable style={styles.quickButton} onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.quickButtonText}>Login</Text>
           </Pressable>
         </View>
       </View>
@@ -221,6 +234,30 @@ const styles = StyleSheet.create({
   cartPillText: {
     color: colors.darkGreen,
     fontWeight: "900",
+  },
+  loginBanner: {
+    backgroundColor: colors.lightMuted,
+    borderRadius: 8,
+    marginBottom: 20,
+    padding: 12,
+  },
+  loginBannerText: {
+    color: colors.darkGreen,
+    fontWeight: "900",
+  },
+  statusBar: {
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 22,
+    padding: 12,
+  },
+  statusText: {
+    color: colors.muted,
+    fontSize: 12,
+    fontWeight: "800",
   },
   hero: {
     paddingBottom: 30,

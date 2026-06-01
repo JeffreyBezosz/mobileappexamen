@@ -7,6 +7,7 @@ import CartScreen from "./screens/CartScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
 import NewsDetailsScreen from "./screens/NewsDetailsScreen";
 import NewsScreen from "./screens/NewsScreen";
 import ProductDetailsScreen from "./screens/ProductDetailsScreen";
@@ -18,6 +19,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [favorites, setFavorites] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
 
   const toggleFavorite = (item) => {
     setFavorites((current) => {
@@ -68,6 +70,7 @@ export default function App() {
               {...props}
               favorites={favorites}
               cartItems={cartItems}
+              user={user}
               toggleFavorite={toggleFavorite}
             />
           )}
@@ -108,6 +111,15 @@ export default function App() {
               {...props}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Login" options={{ title: "Login" }}>
+          {(props) => (
+            <LoginScreen
+              {...props}
+              user={user}
+              setUser={setUser}
             />
           )}
         </Stack.Screen>
