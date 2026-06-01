@@ -96,13 +96,23 @@ export async function getNews() {
 
     const articles = (data.items || []).map((item) => {
       const fields = item.fieldData || {};
+      const rawDate = fields.datum || fields.date || "";
+      const date = rawDate
+        ? new Date(rawDate).toLocaleDateString("nl-BE", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })
+        : "";
+
       return {
         id: item.id,
         title: fields.name || fields.title || "Nieuwsartikel",
         intro: fields.intro || fields.excerpt || fields.description || "",
-        category: fields.category || "Algemeen",
-        date: fields.datum || fields.date || "",
-        image: getImageUrl(fields.afbeelding, fields["main-image"], fields.image),
+        category: fields.categorie || fields.category || "Algemeen",
+        campus: fields.campus || "",
+        date,
+        image: getImageUrl(fields.img, fields.afbeelding, fields["main-image"], fields.image),
         content: String(fields.inhoud || fields.content || fields.body || "").replace(/<[^>]*>/g, " "),
       };
     });
