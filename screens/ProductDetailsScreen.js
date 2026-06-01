@@ -3,11 +3,17 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-nati
 import PlaceholderImage from "../components/PlaceholderImage";
 import { colors, spacing } from "../constants/theme";
 
-export default function ProductDetailsScreen({ route, favorites, toggleFavorite }) {
+export default function ProductDetailsScreen({ route, navigation, favorites, toggleFavorite, addToCart }) {
   const { product } = route.params;
   const [quantity, setQuantity] = useState(1);
+  const [message, setMessage] = useState("");
   const isFavorite = favorites.some((item) => item.id === product.id);
   const total = Number(product.price || 0) * quantity;
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setMessage(`${quantity}x toegevoegd aan je winkelmand.`);
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -35,6 +41,16 @@ export default function ProductDetailsScreen({ route, favorites, toggleFavorite 
         <Text style={styles.totalLabel}>Totaal</Text>
         <Text style={styles.totalValue}>€{total.toFixed(2).replace(".", ",")}</Text>
       </View>
+
+      {message ? <Text style={styles.message}>{message}</Text> : null}
+
+      <Pressable style={styles.cartButton} onPress={handleAddToCart}>
+        <Text style={styles.cartButtonText}>Toevoegen aan winkelmand</Text>
+      </Pressable>
+
+      <Pressable style={styles.darkButton} onPress={() => navigation.navigate("Cart")}>
+        <Text style={styles.darkButtonText}>Bekijk winkelmand</Text>
+      </Pressable>
 
       <Pressable style={styles.button} onPress={() => toggleFavorite(product)}>
         <Text style={styles.buttonText}>{isFavorite ? "Verwijder favoriet" : "Voeg toe aan favorieten"}</Text>
@@ -123,13 +139,41 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 12,
+    paddingVertical: 14,
+  },
+  buttonText: {
+    color: colors.ink,
+    fontWeight: "900",
+  },
+  message: {
+    color: colors.darkGreen,
+    fontWeight: "900",
+    marginTop: 12,
+  },
+  cartButton: {
+    alignItems: "center",
     backgroundColor: colors.green,
     borderRadius: 8,
     marginTop: 14,
     paddingVertical: 14,
   },
-  buttonText: {
+  cartButtonText: {
     color: colors.ink,
+    fontWeight: "900",
+  },
+  darkButton: {
+    alignItems: "center",
+    backgroundColor: colors.darkGreen,
+    borderRadius: 8,
+    marginTop: 12,
+    paddingVertical: 14,
+  },
+  darkButtonText: {
+    color: colors.white,
     fontWeight: "900",
   },
 });

@@ -14,6 +14,7 @@ export default function NewsCard({ article, onPress }) {
       <Text style={styles.category}>{article.category}</Text>
       <Text style={styles.title}>{article.title}</Text>
       <Text style={styles.intro} numberOfLines={3}>{article.intro}</Text>
+      {article.campus ? <Text style={styles.campus}>{article.campus}</Text> : null}
       <Text style={styles.date}>{article.date}</Text>
     </Pressable>
   );
@@ -58,6 +59,12 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontSize: 12,
     fontWeight: "700",
+    marginTop: 10,
+  },
+  campus: {
+    color: colors.darkGreen,
+    fontSize: 13,
+    fontWeight: "800",
     marginTop: 10,
   },
 });

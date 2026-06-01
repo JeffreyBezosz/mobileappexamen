@@ -15,6 +15,7 @@ export default function NewsDetailsScreen({ route }) {
       )}
       <Text style={styles.category}>{article.category}</Text>
       <Text style={styles.title}>{article.title}</Text>
+      {article.campus ? <Text style={styles.campus}>{article.campus}</Text> : null}
       <Text style={styles.date}>{article.date}</Text>
       <Text style={styles.body}>{article.content || article.intro}</Text>
     </ScrollView>
@@ -50,6 +51,12 @@ const styles = StyleSheet.create({
   date: {
     color: colors.muted,
     fontWeight: "800",
+    marginTop: 10,
+  },
+  campus: {
+    color: colors.darkGreen,
+    fontSize: 16,
+    fontWeight: "900",
     marginTop: 10,
   },
   body: {

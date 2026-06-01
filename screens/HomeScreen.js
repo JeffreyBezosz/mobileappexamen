@@ -11,7 +11,7 @@ import { colors, spacing } from "../constants/theme";
 import { getCampuses, getNews, getProducts } from "../services/webflow";
 import { filterAndSort, getCategories } from "../utils/filtering";
 
-export default function HomeScreen({ navigation, favorites, toggleFavorite }) {
+export default function HomeScreen({ navigation, favorites, cartItems, toggleFavorite }) {
   const [products, setProducts] = useState([]);
   const [news, setNews] = useState([]);
   const [campuses, setCampuses] = useState([]);
@@ -43,17 +43,23 @@ export default function HomeScreen({ navigation, favorites, toggleFavorite }) {
     () => filterAndSort(campuses, searchQuery, selectedCategory, sortOption, "name"),
     [campuses, searchQuery, selectedCategory, sortOption]
   );
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
       <View style={styles.logoRow}>
-        <View style={styles.logoBox}>
-          <Text style={styles.logoText}>BA</Text>
+        <View style={styles.brandRow}>
+          <View style={styles.logoBox}>
+            <Text style={styles.logoText}>BA</Text>
+          </View>
+          <View>
+            <Text style={styles.brand}>Busleyden</Text>
+            <Text style={styles.brandSub}>Atheneum</Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.brand}>Busleyden</Text>
-          <Text style={styles.brandSub}>Atheneum</Text>
-        </View>
+        <Pressable style={styles.cartPill} onPress={() => navigation.navigate("Cart")}>
+          <Text style={styles.cartPillText}>Mandje {cartCount}</Text>
+        </Pressable>
       </View>
 
       <View style={styles.hero}>
@@ -101,6 +107,11 @@ export default function HomeScreen({ navigation, favorites, toggleFavorite }) {
         setSearchQuery={setSearchQuery}
         sortOption={sortOption}
         setSortOption={setSortOption}
+        onReset={() => {
+          setSearchQuery("");
+          setSelectedCategory("");
+          setSortOption("name-asc");
+        }}
       />
 
       {loading ? <Text style={styles.empty}>Data laden...</Text> : null}
@@ -163,8 +174,13 @@ const styles = StyleSheet.create({
   logoRow: {
     alignItems: "center",
     flexDirection: "row",
-    gap: 10,
+    justifyContent: "space-between",
     marginBottom: 28,
+  },
+  brandRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 10,
   },
   logoBox: {
     alignItems: "center",
@@ -187,6 +203,16 @@ const styles = StyleSheet.create({
     color: colors.darkGreen,
     fontSize: 13,
     fontWeight: "700",
+  },
+  cartPill: {
+    backgroundColor: colors.lightMuted,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  cartPillText: {
+    color: colors.darkGreen,
+    fontWeight: "900",
   },
   hero: {
     paddingBottom: 30,
