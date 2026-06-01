@@ -12,7 +12,22 @@ export default function FilterBar({
   sortOption,
   setSortOption,
   showPriceSort = false,
+  sortOptions,
+  onReset,
 }) {
+  const options =
+    sortOptions ||
+    [
+      { label: "Naam A-Z", value: "name-asc" },
+      { label: "Naam Z-A", value: "name-desc" },
+      ...(showPriceSort
+        ? [
+            { label: "Prijs laag-hoog", value: "price-asc" },
+            { label: "Prijs hoog-laag", value: "price-desc" },
+          ]
+        : []),
+    ];
+
   return (
     <View style={styles.wrapper}>
       <TextInput
@@ -41,12 +56,17 @@ export default function FilterBar({
 
       <View style={styles.pickerWrapper}>
         <Picker selectedValue={sortOption} onValueChange={setSortOption} style={styles.picker}>
-          <Picker.Item label="Naam A-Z" value="name-asc" />
-          <Picker.Item label="Naam Z-A" value="name-desc" />
-          {showPriceSort ? <Picker.Item label="Prijs laag-hoog" value="price-asc" /> : null}
-          {showPriceSort ? <Picker.Item label="Prijs hoog-laag" value="price-desc" /> : null}
+          {options.map((option) => (
+            <Picker.Item key={option.value} label={option.label} value={option.value} />
+          ))}
         </Picker>
       </View>
+
+      {onReset ? (
+        <Pressable style={styles.resetButton} onPress={onReset}>
+          <Text style={styles.resetText}>Reset filters</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -94,5 +114,19 @@ const styles = StyleSheet.create({
   },
   picker: {
     color: colors.ink,
+  },
+  resetButton: {
+    alignItems: "center",
+    alignSelf: "flex-start",
+    borderColor: colors.darkGreen,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  resetText: {
+    color: colors.darkGreen,
+    fontWeight: "900",
   },
 });

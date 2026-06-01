@@ -20,6 +20,8 @@ export function filterAndSort(items, searchQuery, selectedCategory, sortOption, 
       if (sortOption === "name-desc") return nameB.localeCompare(nameA);
       if (sortOption === "price-asc") return Number(a.price || 0) - Number(b.price || 0);
       if (sortOption === "price-desc") return Number(b.price || 0) - Number(a.price || 0);
+      if (sortOption === "date-new") return new Date(b.rawDate || b.date || 0) - new Date(a.rawDate || a.date || 0);
+      if (sortOption === "date-old") return new Date(a.rawDate || a.date || 0) - new Date(b.rawDate || b.date || 0);
       return nameA.localeCompare(nameB);
     });
 }

@@ -112,6 +112,7 @@ export async function getNews() {
         category: fields.categorie || fields.category || "Algemeen",
         campus: fields.campus || "",
         date,
+        rawDate,
         image: getImageUrl(fields.img, fields.afbeelding, fields["main-image"], fields.image),
         content: String(fields.inhoud || fields.content || fields.body || "").replace(/<[^>]*>/g, " "),
       };
