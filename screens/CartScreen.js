@@ -2,6 +2,7 @@ import React from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import SectionHeader from "../components/SectionHeader";
 import { colors, spacing } from "../constants/theme";
+import { formatPrice } from "../utils/formatting";
 
 export default function CartScreen({ cartItems, setCartItems, updateCartQuantity }) {
   const total = cartItems.reduce(
@@ -24,7 +25,7 @@ export default function CartScreen({ cartItems, setCartItems, updateCartQuantity
       {cartItems.map((item) => (
         <View key={item.id} style={styles.card}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.meta}>€{Number(item.price || 0).toFixed(2).replace(".", ",")} per stuk</Text>
+          <Text style={styles.meta}>{formatPrice(item.price)} per stuk</Text>
           <View style={styles.row}>
             <Pressable
               style={styles.stepper}
@@ -41,14 +42,14 @@ export default function CartScreen({ cartItems, setCartItems, updateCartQuantity
             </Pressable>
           </View>
           <Text style={styles.lineTotal}>
-            Subtotaal: €{(Number(item.price || 0) * item.quantity).toFixed(2).replace(".", ",")}
+            Subtotaal: {formatPrice(Number(item.price || 0) * item.quantity)}
           </Text>
         </View>
       ))}
 
       <View style={styles.totalBox}>
         <Text style={styles.totalLabel}>Totaal</Text>
-        <Text style={styles.totalValue}>€{total.toFixed(2).replace(".", ",")}</Text>
+        <Text style={styles.totalValue}>{formatPrice(total)}</Text>
       </View>
 
       {cartItems.length > 0 ? (

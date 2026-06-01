@@ -11,7 +11,8 @@ React Native / Expo app voor het Busleyden Atheneum redesign.
 - Studiezoeker
 - Mini-game met score, timer en herstartfunctie
 - Winkelmandje met aantallen en totaalprijs
-- Favorietenlijst voor producten
+- Favorietenlijst voor producten met eigen scherm
+- `FlatList` voor webshop en nieuws
 - Webflow service met fallback data zolang de Webflow site nog niet volledig af is
 
 ## Opdrachtcheck
@@ -24,7 +25,8 @@ React Native / Expo app voor het Busleyden Atheneum redesign.
 - Product state: aantal aanpassen, minimum 1, totaalprijs berekenen
 - Producten: zoeken, filteren op categorie, sorteren op naam en prijs
 - Nieuws: zoeken, filteren op categorie, sorteren op datum en naam
-- Extra: resetknop voor filters, loading states, lege states, pressed states, winkelmandje, favorieten, mini-game
+- Extra: resetknop voor filters, loading states, lege states, pressed states, winkelmandje, favorietenpagina, mini-game
+- Performance: `FlatList` in `screens/ShopScreen.js` en `screens/NewsScreen.js`
 
 ## Starten
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text } from "react-native";
 import FilterBar from "../components/FilterBar";
 import NewsCard from "../components/NewsCard";
 import SectionHeader from "../components/SectionHeader";
@@ -38,8 +38,23 @@ export default function NewsScreen({ navigation }) {
     [news, searchQuery, selectedCategory, sortOption]
   );
 
+  const renderArticle = ({ item }) => (
+    <NewsCard
+      article={item}
+      onPress={() => navigation.navigate("NewsDetails", { article: item })}
+    />
+  );
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <FlatList
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      data={filteredNews}
+      keyExtractor={(item) => item.id}
+      renderItem={renderArticle}
+      showsVerticalScrollIndicator={false}
+      ListHeaderComponent={
+        <>
       <SectionHeader eyebrow="Actueel" title="Laatste nieuws" subtitle="Zoek en filter nieuwsartikelen." />
       <FilterBar
         categories={categories}
@@ -63,15 +78,12 @@ export default function NewsScreen({ navigation }) {
       />
       {loading ? <Text style={styles.empty}>Nieuws laden...</Text> : null}
       {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
-      {!loading && filteredNews.length === 0 ? <Text style={styles.empty}>Geen nieuws gevonden.</Text> : null}
-      {filteredNews.map((article) => (
-        <NewsCard
-          key={article.id}
-          article={article}
-          onPress={() => navigation.navigate("NewsDetails", { article })}
-        />
-      ))}
-    </ScrollView>
+        </>
+      }
+      ListEmptyComponent={
+        !loading ? <Text style={styles.empty}>Geen nieuws gevonden.</Text> : null
+      }
+    />
   );
 }
 

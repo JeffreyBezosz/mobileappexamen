@@ -78,6 +78,14 @@ export default function HomeScreen({ navigation, favorites, cartItems, toggleFav
         <View style={styles.nativeButton}>
           <Button title="Open webshop" color={colors.darkGreen} onPress={() => navigation.navigate("Shop")} />
         </View>
+        <View style={styles.quickActions}>
+          <Pressable style={styles.quickButton} onPress={() => navigation.navigate("News")}>
+            <Text style={styles.quickButtonText}>Nieuws</Text>
+          </Pressable>
+          <Pressable style={styles.quickButton} onPress={() => navigation.navigate("Favorites")}>
+            <Text style={styles.quickButtonText}>Favorieten</Text>
+          </Pressable>
+        </View>
       </View>
 
       <View style={styles.statsBand}>
@@ -258,6 +266,22 @@ const styles = StyleSheet.create({
   nativeButton: {
     alignSelf: "flex-start",
     marginTop: 12,
+  },
+  quickActions: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 10,
+  },
+  quickButton: {
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 11,
+  },
+  quickButtonText: {
+    color: colors.ink,
+    fontWeight: "900",
   },
   statsBand: {
     backgroundColor: colors.darkGreen,

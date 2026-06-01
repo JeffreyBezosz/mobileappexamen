@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import PlaceholderImage from "../components/PlaceholderImage";
 import { colors, spacing } from "../constants/theme";
+import { formatPrice } from "../utils/formatting";
 
 export default function ProductDetailsScreen({ route, navigation, favorites, toggleFavorite, addToCart }) {
   const { product } = route.params;
@@ -25,7 +26,7 @@ export default function ProductDetailsScreen({ route, navigation, favorites, tog
       <Text style={styles.category}>{product.category}</Text>
       <Text style={styles.title}>{product.title}</Text>
       <Text style={styles.description}>{product.description}</Text>
-      <Text style={styles.price}>€{Number(product.price || 0).toFixed(2).replace(".", ",")}</Text>
+      <Text style={styles.price}>{formatPrice(product.price)}</Text>
 
       <View style={styles.quantityRow}>
         <Pressable style={styles.stepper} onPress={() => setQuantity((value) => Math.max(1, value - 1))}>
@@ -39,7 +40,7 @@ export default function ProductDetailsScreen({ route, navigation, favorites, tog
 
       <View style={styles.totalBox}>
         <Text style={styles.totalLabel}>Totaal</Text>
-        <Text style={styles.totalValue}>€{total.toFixed(2).replace(".", ",")}</Text>
+        <Text style={styles.totalValue}>{formatPrice(total)}</Text>
       </View>
 
       {message ? <Text style={styles.message}>{message}</Text> : null}

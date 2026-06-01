@@ -1,9 +1,15 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
+import { formatPrice } from "../utils/formatting";
 import PlaceholderImage from "./PlaceholderImage";
 
 export default function ProductCard({ product, onPress, onFavorite, isFavorite }) {
+  const handleFavorite = (event) => {
+    event.stopPropagation?.();
+    onFavorite();
+  };
+
   return (
     <Pressable style={({ pressed }) => [styles.card, pressed && styles.pressed]} onPress={onPress}>
       {product.image ? (
@@ -16,9 +22,11 @@ export default function ProductCard({ product, onPress, onFavorite, isFavorite }
         <Text style={styles.title}>{product.title}</Text>
         <Text style={styles.description} numberOfLines={2}>{product.description}</Text>
         <View style={styles.footer}>
-          <Text style={styles.price}>€{Number(product.price || 0).toFixed(2).replace(".", ",")}</Text>
-          <Pressable style={styles.favoriteButton} onPress={onFavorite}>
-            <Text style={styles.favoriteText}>{isFavorite ? "★" : "☆"}</Text>
+          <Text style={styles.price}>{formatPrice(product.price)}</Text>
+          <Pressable style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]} onPress={handleFavorite}>
+            <Text style={[styles.favoriteText, isFavorite && styles.favoriteTextActive]}>
+              {isFavorite ? "F" : "+"}
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -82,8 +90,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 38,
   },
+  favoriteButtonActive: {
+    backgroundColor: colors.darkGreen,
+  },
   favoriteText: {
     color: colors.green,
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: "900",
+  },
+  favoriteTextActive: {
+    color: colors.white,
   },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import FilterBar from "../components/FilterBar";
 import ProductCard from "../components/ProductCard";
 import SectionHeader from "../components/SectionHeader";
@@ -38,12 +38,32 @@ export default function ShopScreen({ navigation, favorites, toggleFavorite }) {
     [products, searchQuery, selectedCategory, sortOption]
   );
 
+  const renderProduct = ({ item }) => (
+    <ProductCard
+      product={item}
+      isFavorite={favorites.some((favorite) => favorite.id === item.id)}
+      onFavorite={() => toggleFavorite(item)}
+      onPress={() => navigation.navigate("ProductDetails", { product: item })}
+    />
+  );
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <FlatList
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      data={filteredProducts}
+      keyExtractor={(item) => item.id}
+      renderItem={renderProduct}
+      showsVerticalScrollIndicator={false}
+      ListHeaderComponent={
+        <>
       <View style={styles.headerRow}>
         <SectionHeader eyebrow="Shop" title="Webshop" subtitle="Zoek, filter en sorteer alle producten." />
         <Pressable style={styles.cartButton} onPress={() => navigation.navigate("Cart")}>
           <Text style={styles.cartText}>Mandje</Text>
+        </Pressable>
+        <Pressable style={styles.favoritesButton} onPress={() => navigation.navigate("Favorites")}>
+          <Text style={styles.favoritesText}>Favorieten</Text>
         </Pressable>
       </View>
       <FilterBar
@@ -63,17 +83,12 @@ export default function ShopScreen({ navigation, favorites, toggleFavorite }) {
       />
       {loading ? <Text style={styles.empty}>Producten laden...</Text> : null}
       {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
-      {!loading && filteredProducts.length === 0 ? <Text style={styles.empty}>Geen producten gevonden.</Text> : null}
-      {filteredProducts.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          isFavorite={favorites.some((item) => item.id === product.id)}
-          onFavorite={() => toggleFavorite(product)}
-          onPress={() => navigation.navigate("ProductDetails", { product })}
-        />
-      ))}
-    </ScrollView>
+        </>
+      }
+      ListEmptyComponent={
+        !loading ? <Text style={styles.empty}>Geen producten gevonden.</Text> : null
+      }
+    />
   );
 }
 
@@ -96,7 +111,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   headerRow: {
+    alignItems: "flex-start",
     flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
     justifyContent: "space-between",
   },
   cartButton: {
@@ -110,6 +128,20 @@ const styles = StyleSheet.create({
   },
   cartText: {
     color: colors.white,
+    fontWeight: "900",
+  },
+  favoritesButton: {
+    alignItems: "center",
+    borderColor: colors.darkGreen,
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 42,
+    justifyContent: "center",
+    marginTop: 10,
+    paddingHorizontal: 14,
+  },
+  favoritesText: {
+    color: colors.darkGreen,
     fontWeight: "900",
   },
 });

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CampusDetailsScreen from "./screens/CampusDetailsScreen";
 import CartScreen from "./screens/CartScreen";
+import FavoritesScreen from "./screens/FavoritesScreen";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
 import NewsDetailsScreen from "./screens/NewsDetailsScreen";
@@ -98,6 +99,15 @@ export default function App() {
               cartItems={cartItems}
               setCartItems={setCartItems}
               updateCartQuantity={updateCartQuantity}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Favorites" options={{ title: "Favorieten" }}>
+          {(props) => (
+            <FavoritesScreen
+              {...props}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
             />
           )}
         </Stack.Screen>
