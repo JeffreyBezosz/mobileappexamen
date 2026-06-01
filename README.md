@@ -10,7 +10,21 @@ React Native / Expo app voor het Busleyden Atheneum redesign.
 - Campussen met filter en detailpagina
 - Studiezoeker
 - Mini-game met score, timer en herstartfunctie
+- Winkelmandje met aantallen en totaalprijs
+- Favorietenlijst voor producten
 - Webflow service met fallback data zolang de Webflow site nog niet volledig af is
+
+## Opdrachtcheck
+
+- Core components: `View`, `Text`, `Image`, `TextInput`, `Pressable`, `ScrollView`, `StyleSheet`, `Button`, `Switch`
+- Herbruikbare components: `components/ProductCard.js`, `components/CampusCard.js`, `components/NewsCard.js`
+- Navigatie: Stack Navigator in `App.js`
+- Details via route params: producten, nieuws en campussen
+- Dynamische Webflow data: `services/webflow.js`
+- Product state: aantal aanpassen, minimum 1, totaalprijs berekenen
+- Producten: zoeken, filteren op categorie, sorteren op naam en prijs
+- Nieuws: zoeken, filteren op categorie, sorteren op datum en naam
+- Extra: resetknop voor filters, loading states, lege states, pressed states, winkelmandje, favorieten, mini-game
 
 ## Starten
 
