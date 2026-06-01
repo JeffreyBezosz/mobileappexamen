@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CampusDetailsScreen from "./screens/CampusDetailsScreen";
+import CartScreen from "./screens/CartScreen";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
 import NewsDetailsScreen from "./screens/NewsDetailsScreen";
@@ -15,6 +16,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [favorites, setFavorites] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   const toggleFavorite = (item) => {
     setFavorites((current) => {
@@ -23,6 +25,29 @@ export default function App() {
         ? current.filter((favorite) => favorite.id !== item.id)
         : [...current, item];
     });
+  };
+
+  const addToCart = (product, quantity = 1) => {
+    setCartItems((current) => {
+      const existingItem = current.find((item) => item.id === product.id);
+      if (existingItem) {
+        return current.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+
+      return [...current, { ...product, quantity }];
+    });
+  };
+
+  const updateCartQuantity = (id, quantity) => {
+    setCartItems((current) =>
+      current
+        .map((item) => (item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item))
+        .filter((item) => item.quantity > 0)
+    );
   };
 
   return (
@@ -41,6 +66,7 @@ export default function App() {
             <HomeScreen
               {...props}
               favorites={favorites}
+              cartItems={cartItems}
               toggleFavorite={toggleFavorite}
             />
           )}
@@ -50,6 +76,7 @@ export default function App() {
             <ShopScreen
               {...props}
               favorites={favorites}
+              cartItems={cartItems}
               toggleFavorite={toggleFavorite}
             />
           )}
@@ -60,6 +87,17 @@ export default function App() {
               {...props}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
+              addToCart={addToCart}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Cart" options={{ title: "Winkelmand" }}>
+          {(props) => (
+            <CartScreen
+              {...props}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              updateCartQuantity={updateCartQuantity}
             />
           )}
         </Stack.Screen>
