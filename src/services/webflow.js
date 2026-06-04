@@ -4,8 +4,8 @@ import {
   fallbackProducts,
 } from "../data/fallbackData";
 
-const SITE_ID = "6a1c4c3ee6ee256945bb0a0d";
-const API_TOKEN = process.env.EXPO_PUBLIC_WEBFLOW_API_TOKEN || "";
+const SITE_ID = process.env.EXPO_PUBLIC_WEBFLOW_SITE_ID || "6a1c4c3ee6ee256945bb0a0d";
+const API_TOKEN = process.env.EXPO_PUBLIC_WEBFLOW_API_TOKEN?.trim() || "";
 
 const COLLECTION_IDS = {
   categories: "6a1dc34672b591bef6e05622",
@@ -30,7 +30,8 @@ async function fetchJson(url) {
 
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(`Webflow fout: ${response.status}`);
+    const body = await response.text();
+    throw new Error(`Webflow fout: ${response.status}${body ? ` - ${body}` : ""}`);
   }
   return response.json();
 }

@@ -1,7 +1,10 @@
 node_modules/
 .expo/
+.expo-home/
+.npm-cache/
 dist/
 web-build/
+mobile-app/
 .env
 .env.local
 npm-debug.log*
